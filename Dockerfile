@@ -10,5 +10,5 @@ WORKDIR /home/kube
 ENV CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 RUN curl https://sdk.cloud.google.com | bash
-RUN bash -c ". /home/kube/google-cloud-sdk/path.bash.inc && gcloud config set disable_usage_reporting false"
+RUN bash -c ". /home/kube/google-cloud-sdk/path.bash.inc && gcloud config set disable_usage_reporting false && gcloud components install kubectl"
 
