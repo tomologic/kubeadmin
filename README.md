@@ -14,7 +14,7 @@ The following assumptions have been made for this example:
 
 To initialize the use of `kubectl` for a kubernetes cluster, run the following:
 ````
-docker run --rm -ti -v $PWD/secrets:/home/kube/secrets tomologic/kubeadmin \
+docker run --rm -ti -v $PWD/secrets:/root/secrets tomologic/kubeadmin \
   initialize <project-id> <availability-zone> <cluster> secrets/key.json
 ````
 * _project-id_ is the ID of the project that contains the kubernetes cluster
@@ -25,7 +25,7 @@ docker run --rm -ti -v $PWD/secrets:/home/kube/secrets tomologic/kubeadmin \
 ## Usage
 Example use after initialization:
 ````
-alias c="docker run --rm -ti -v $PWD/secrets/.config:/home/kube/.config -v $PWD/secrets/.kube:/home/kube/.kube tomologic/kubeadmin"
+alias c="docker run --rm -ti -v $PWD/secrets/.config:/root/.config -v $PWD/secrets/.kube:/root/.kube tomologic/kubeadmin"
 c kubectl get pods
 c gcloud container clusters list
 ````

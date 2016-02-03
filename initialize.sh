@@ -50,10 +50,10 @@ cat <<EOS
 Success! kubectl and gcloud commands initialized
 
 Usage:
-docker run --rm -ti -v \$PWD/secrets/.config:/home/kube/.config -v \$PWD/secrets/.kube:/home/kube/.kube tomologic/kubeadmin <command> <args>'
+docker run --rm -ti -v \$PWD/secrets/.config:/root/.config -v \$PWD/secrets/.kube:/root/.kube tomologic/kubeadmin <command> <args>'
 
 Examples:
-alias c="docker run --rm -ti -v \$PWD/secrets/.config:/home/kube/.config -v \$PWD/secrets/.kube:/home/kube/.kube tomologic/kubeadmin"
+alias c="docker run --rm -ti -v \$PWD/secrets/.config:/root/.config -v \$PWD/secrets/.kube:/root/.kube tomologic/kubeadmin"
 c kubectl get pods
 c gcloud container clusters list
 EOS
