@@ -7,6 +7,8 @@ RUN apt-get update \
 ENV CLOUDSDK_PYTHON_SITEPACKAGES=1
 WORKDIR /root
 
+# Change following ENV value to force SDK version upgrade
+ENV UPDATE_DATE=20160923
 RUN curl https://sdk.cloud.google.com | bash
 RUN bash -c ". google-cloud-sdk/path.bash.inc && gcloud config set disable_usage_reporting false && gcloud components install kubectl"
 
