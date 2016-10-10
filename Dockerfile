@@ -1,17 +1,29 @@
 FROM debian:jessie
-RUN apt-get update \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
  && apt-get -y install python python-openssl curl \
  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Prepare installation of the k8s tools
-ENV CLOUDSDK_PYTHON_SITEPACKAGES=1
+ENV GOOGLE_CLOUD_SDK_VERSION=129.0.0 \
+    CLOUDSDK_PYTHON_SITEPACKAGES=1 \
+    DOWNLOAD_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz \
+    PATH=$PATH:google-cloud-sdk/bin
+
 WORKDIR /root
 
-# Change following ENV value to force SDK version upgrade
-ENV UPDATE_DATE=20160923
-RUN curl https://sdk.cloud.google.com | bash
-RUN bash -c ". google-cloud-sdk/path.bash.inc && gcloud config set disable_usage_reporting false && gcloud components install kubectl"
+RUN curl -so- $DOWNLOAD_URL | tar -xzf -
+RUN google-cloud-sdk/install.sh \
+    --usage-reporting=false \
+    --path-update=true \
+    --bash-completion=true \
+    --rc-path=/root/.bashrc \
+    --additional-components kubectl alpha beta \
 
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+# Ensure the sdk version used is the one specified
+ && (gcloud version | grep -q "Google Cloud SDK $GOOGLE_CLOUD_SDK_VERSION" \
+     || gcloud components update --version $GOOGLE_CLOUD_SDK_VERSION)
+
+RUN gcloud config set --installation component_manager/disable_update_check true
+
 COPY ./initialize.sh /root/google-cloud-sdk/bin/initialize
 
