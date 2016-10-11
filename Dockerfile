@@ -7,7 +7,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 ENV GOOGLE_CLOUD_SDK_VERSION=129.0.0 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     DOWNLOAD_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz \
-    PATH=$PATH:google-cloud-sdk/bin
+    PATH=$PATH:/root/google-cloud-sdk/bin
 
 WORKDIR /root
 
