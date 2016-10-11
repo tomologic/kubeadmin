@@ -1,6 +1,6 @@
 FROM debian:jessie
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
- && apt-get -y install python python-openssl curl \
+ && apt-get -y install python python-openssl curl make \
  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Prepare installation of the k8s tools
