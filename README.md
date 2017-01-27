@@ -66,3 +66,9 @@ compute instances list
 _Note that the account used needs to have been imported into the host's
 credentials file first. Refer to Google's docs on the sibject for how to use
 their tools._
+
+Example of stateless, using a service account key file to list available buckets
+```
+docker run --rm -v ${SERVICE_ACCOUNT_KEY}:/key.json:ro tomologic/kubeadmin sh -c \
+"gcloud auth activate-service-account --key-file=/key.json && gcloud config set project ${PROJECT} && gsutil ls"
+```
