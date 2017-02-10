@@ -25,3 +25,4 @@ RUN gcloud config set --installation component_manager/disable_update_check true
 
 COPY ./initialize.sh /root/google-cloud-sdk/bin/initialize
 
+CMD ["/bin/bash"]
