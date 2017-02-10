@@ -1,7 +1,5 @@
-FROM debian:jessie
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
- && apt-get -y install python python-openssl curl make \
- && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+FROM alpine:3.5
+RUN apk add --no-cache bash curl make python
 
 # Prepare installation of the k8s tools
 ENV GOOGLE_CLOUD_SDK_VERSION=143.0.0 \
