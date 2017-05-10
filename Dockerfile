@@ -29,6 +29,7 @@ ENV HELM_VERSION v2.3.0
 RUN curl -so- https://kubernetes-helm.storage.googleapis.com/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar -xzvf - \
   && mv /root/linux-amd64/helm /bin/helm \
   && rm -rvf /root/linux-amd64
+RUN helm init --client-only
 
 COPY ./initialize.sh /root/google-cloud-sdk/bin/initialize
 
