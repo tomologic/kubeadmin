@@ -2,7 +2,7 @@ FROM alpine:3.6
 RUN apk add --no-cache bash curl make python
 
 # Prepare installation of the k8s tools
-ENV GOOGLE_CLOUD_SDK_VERSION=170.0.1 \
+ENV GOOGLE_CLOUD_SDK_VERSION=180.0.1 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     DOWNLOAD_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz \
     PATH=$PATH:/root/google-cloud-sdk/bin
@@ -24,7 +24,7 @@ RUN google-cloud-sdk/install.sh \
 RUN gcloud config set --installation component_manager/disable_update_check true
 
 # Helm
-ENV HELM_VERSION v2.6.1
+ENV HELM_VERSION v2.7.2
 
 RUN curl -so- https://kubernetes-helm.storage.googleapis.com/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar -xzvf - \
   && mv /root/linux-amd64/helm /bin/helm \
