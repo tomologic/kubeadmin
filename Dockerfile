@@ -2,7 +2,7 @@ FROM alpine:3.7
 RUN apk add --no-cache bash curl make python
 
 # Prepare installation of the k8s tools
-ENV GOOGLE_CLOUD_SDK_VERSION=188.0.1 \
+ENV GOOGLE_CLOUD_SDK_VERSION=196.0.0 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     DOWNLOAD_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz \
     PATH=$PATH:/root/google-cloud-sdk/bin
