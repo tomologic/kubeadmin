@@ -7,7 +7,7 @@ CLUSTER="$3"
 KEYFILE="$4"
 
 if [ -z "$KEYFILE" ];then
-  echo "Usage: $(basename $0) PROJECT ZONE CLUSTER KEYFILE"
+  echo "Usage: $(basename "$0") PROJECT ZONE CLUSTER KEYFILE"
   echo
   echo "Arguments:"
   echo "  PROJECT  The project ID in which the cluster resides"
@@ -27,16 +27,14 @@ if [ -d secrets/.kube ];then
   exit 0
 fi
 
-EMAIL=$(cat "$KEYFILE" | grep -E client_email | cut -d\" -f 4)
+EMAIL=$(grep -E client_email "$KEYFILE"| cut -d\" -f 4)
 
 gcloud auth activate-service-account "$EMAIL" --key-file "$KEYFILE"
 gcloud container clusters get-credentials "$CLUSTER" --zone="$ZONE" --project="$PROJECT"
 gcloud config set project "$PROJECT"
 
-echo -e "\nTesting use of the kubectl command"
-kubectl version
-
-if [ $? -ne 0 ];then
+echo -e '\nTesting use of the kubectl command'
+if ! kubectl version; then
   echo "Error: failed to interact with cluster"
   exit 3
 fi
