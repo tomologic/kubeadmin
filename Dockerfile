@@ -15,10 +15,14 @@ RUN /opt/google-cloud-sdk/install.sh \
     --usage-reporting=false \
     --path-update=true \
     --bash-completion=true \
-    --additional-components kubectl alpha beta \
+    --additional-components alpha beta \
     && (gcloud version | grep -q "Google Cloud SDK $GOOGLE_CLOUD_SDK_VERSION" \
     || gcloud components update --version $GOOGLE_CLOUD_SDK_VERSION)
 RUN gcloud config set --installation component_manager/disable_update_check true
+
+# Install newer kubectl than the one bundled with gcloud SDK
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
 
 # Helm
 ENV HELM_VERSION v2.9.1
