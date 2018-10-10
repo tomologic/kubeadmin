@@ -3,7 +3,7 @@ RUN apk add --no-cache bash curl make python
 
 # Prepare installation of the k8s tools
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
-    GOOGLE_CLOUD_SDK_VERSION=216.0.0 \
+    GOOGLE_CLOUD_SDK_VERSION=219.0.1 \
     CLOUDSDK_CORE_DISABLE_PROMPTS=1 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
@@ -25,7 +25,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
     && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
 
 # Helm
-ENV HELM_VERSION v2.10.0
+ENV HELM_VERSION v2.11.0
 
 RUN mkdir /opt/helm \
     && curl -sL https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
