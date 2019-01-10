@@ -1,5 +1,5 @@
 FROM alpine:3.8
-RUN apk add --no-cache bash curl make python
+RUN apk add --no-cache bash curl make python jq
 
 # Prepare installation of the k8s tools
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
