@@ -1,9 +1,10 @@
-FROM alpine:3.10
-RUN apk add --no-cache bash curl make python jq
+# Google Cloud SDK as of 2019-08-24 fails to install on Python 3.7
+FROM python:3.6-alpine
+RUN apk add --no-cache bash curl make jq
 
 # Prepare installation of the k8s tools
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
-    GOOGLE_CLOUD_SDK_VERSION=257.0.0 \
+    GOOGLE_CLOUD_SDK_VERSION=260.0.0 \
     CLOUDSDK_CORE_DISABLE_PROMPTS=1 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
@@ -33,8 +34,6 @@ RUN mkdir /opt/helm \
     && mv /opt/helm/linux-amd64/helm /bin/helm \
     && rm -rvf /opt/helm
 RUN helm init --client-only
-# Besides stable charts add incubator charts too
-RUN helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
 
 COPY ./initialize.sh /opt/google-cloud-sdk/bin/initialize
 
