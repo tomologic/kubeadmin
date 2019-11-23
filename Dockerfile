@@ -4,7 +4,7 @@ RUN apk add --no-cache bash curl make jq
 
 # Prepare installation of the k8s tools
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
-    GOOGLE_CLOUD_SDK_VERSION=269.0.0 \
+    GOOGLE_CLOUD_SDK_VERSION=272.0.0 \
     CLOUDSDK_CORE_DISABLE_PROMPTS=1 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
@@ -22,18 +22,20 @@ RUN gcloud config set --installation component_manager/disable_update_check true
 
 # Install newer kubectl than the one bundled with gcloud SDK
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
-    && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/local/bin/kubectl \
+    && kubectl version --client=true
 
 # Helm
 # https://github.com/helm/helm/releases
-ENV HELM_VERSION v2.15.2
+ENV HELM_VERSION v3.0.0
 
 RUN mkdir /opt/helm \
-    && curl -sL https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
+    && curl -sL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz \
        | tar -C /opt/helm -xzvf - \
     && mv /opt/helm/linux-amd64/helm /bin/helm \
-    && rm -rvf /opt/helm
-RUN helm init --client-only
+    && rm -rvf /opt/helm \
+    && helm version
 
 COPY ./initialize.sh /opt/google-cloud-sdk/bin/initialize
 
