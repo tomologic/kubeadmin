@@ -28,7 +28,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 
 # Helm
 # https://github.com/helm/helm/releases
-ENV HELM_VERSION v3.0.0
+ENV HELM_VERSION v3.0.1
 
 RUN mkdir /opt/helm \
     && curl -sL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz \
