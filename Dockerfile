@@ -1,10 +1,9 @@
-# Google Cloud SDK as of 2019-08-24 fails to install on Python 3.7
-FROM python:3.6-alpine
+FROM python:3.8-alpine
 RUN apk add --no-cache bash curl make jq
 
 # Prepare installation of the k8s tools
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
-    GOOGLE_CLOUD_SDK_VERSION=274.0.0 \
+    GOOGLE_CLOUD_SDK_VERSION=278.0.0 \
     CLOUDSDK_CORE_DISABLE_PROMPTS=1 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
     GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
@@ -28,7 +27,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 
 # Helm
 # https://github.com/helm/helm/releases
-ENV HELM_VERSION v3.0.2
+ENV HELM_VERSION v3.0.3
 
 RUN mkdir /opt/helm \
     && curl -sL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz \
