@@ -1,4 +1,5 @@
-FROM python:3.9-alpine
+# Avoid 3.14 because of https://gitlab.alpinelinux.org/alpine/aports/-/issues/12396
+FROM python:3.9-alpine3.13
 RUN apk add --no-cache bash curl make jq
 
 # Prepare installation of the k8s tools
