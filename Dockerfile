@@ -1,6 +1,7 @@
 # Avoid 3.14 because of https://gitlab.alpinelinux.org/alpine/aports/-/issues/12396
 FROM python:3.10-alpine3.13
-RUN apk add --no-cache bash curl make jq
+# libc6-compat is installed to support `process.dlopen`, used by gcloud
+RUN apk add --no-cache bash curl make jq libc6-compat
 
 # Prepare installation of the k8s tools
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
