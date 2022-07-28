@@ -4,11 +4,13 @@ FROM python:3.10-alpine3.13
 RUN apk add --no-cache bash curl make jq libc6-compat
 
 # Prepare installation of the k8s tools
+# GKE auth: https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH \
-    GOOGLE_CLOUD_SDK_VERSION=383.0.1 \
+    GOOGLE_CLOUD_SDK_VERSION=395.0.0 \
     CLOUDSDK_CORE_DISABLE_PROMPTS=1 \
     CLOUDSDK_PYTHON_SITEPACKAGES=1 \
-    GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+    GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz \
+    USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 RUN curl -sL $GCLOUD_SDK_URL | tar -C /opt -xzf -
 # Install Google Cloud SDK and ensure version is the one specified
@@ -16,10 +18,11 @@ RUN /opt/google-cloud-sdk/install.sh \
     --usage-reporting=false \
     --path-update=true \
     --bash-completion=true \
-    --additional-components alpha beta \
+    --additional-components alpha beta gke-gcloud-auth-plugin \
     && (gcloud version | grep -q "Google Cloud SDK $GOOGLE_CLOUD_SDK_VERSION" \
     || gcloud components update --version $GOOGLE_CLOUD_SDK_VERSION)
 RUN gcloud config set --installation component_manager/disable_update_check true
+RUN gke-gcloud-auth-plugin --version
 
 # Install newer kubectl than the one bundled with gcloud SDK
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
@@ -29,7 +32,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 
 # Helm
 # https://github.com/helm/helm/releases
-ENV HELM_VERSION v3.8.2
+ENV HELM_VERSION v3.9.2
 
 RUN mkdir /opt/helm \
     && curl -sL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz \
