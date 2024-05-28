@@ -16,11 +16,11 @@ RUN curl -sL $GCLOUD_SDK_URL | tar -C /opt -xzf - \
     && rm -rf /opt/google-cloud-sdk/platform/bundledpythonunix \
     && gcloud config set core/disable_usage_reporting true \
     && gcloud config set component_manager/disable_update_check true \
-    && gcloud components install -q beta \
-    && gcloud components install -q gke-gcloud-auth-plugin \
+    && gcloud components install -q beta gsutil gke-gcloud-auth-plugin \
     && rm -rf $(find /opt/google-cloud-sdk/ -regex ".*/__pycache__") \
     && rm -rf /opt/google-cloud-sdk/.install/.backup \
     && rm -rf /opt/google-cloud-sdk/bin/anthoscli \
+    && gsutil version \
     && gke-gcloud-auth-plugin --version
 
 # Install newer kubectl than the one bundled with gcloud SDK
